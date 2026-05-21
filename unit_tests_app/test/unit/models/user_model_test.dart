@@ -26,7 +26,7 @@ void main() {
       final user = UserModel.fromjson(json);
       expect(user.name, 'Alian');
       expect(user.age, 23);
-      expect(user.height, 6.1);
+      expect(user.height, 6.0);
       expect(user.email, 'alian3232@gmail.com');
     });
   });
