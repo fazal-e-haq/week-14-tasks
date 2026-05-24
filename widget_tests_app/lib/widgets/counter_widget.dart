@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_tests_app/widgets/text_field_widget.dart';
 
 class CounterWidget extends StatefulWidget {
   const CounterWidget({super.key});
@@ -31,6 +32,17 @@ class _CounterWidgetState extends State<CounterWidget> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TextFieldWidget()),
+              );
+            },
+            child: Text('Tap to go to TextField screen 👉'),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -49,11 +61,13 @@ class _CounterWidgetState extends State<CounterWidget> {
         spacing: 8,
         children: [
           FloatingActionButton(
+            heroTag: 'increment_btn',
             onPressed: _incrementCounter,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
+            heroTag: 'decrement_btn',
             onPressed: _decrementCounter,
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),

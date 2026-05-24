@@ -8,25 +8,65 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-  final controller = TextEditingController();
+  static final controller = TextEditingController();
 
   String? error;
+  final key = GlobalKey<FormState>();
+  void validate() {
+    setState(() {
+      if (!key.currentState!.validate()) {
+        error = 'Please enter email';
+      } else if (!controller.text.endsWith('@gmail.com')) {
+        error = 'Enter email correctly';
+      } else {
+        error = null;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      onChanged: (value) {
-        setState(() {
-          if (controller.text.isEmpty) {
-            error = 'Enter something';
-          } else {
-            error = null;
-          }
-        });
-      },
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: .circular(20)),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 18.0,
+            vertical: MediaQuery.of(context).size.height / 3 * 1,
+          ),
+          child: Form(
+            key: key,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: controller,
+
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Fill the field';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    errorText: error,
+                    hintText: 'Enter email',
+                    border: OutlineInputBorder(borderRadius: .circular(8)),
+                  ),
+                ),
+                SizedBox(height: 30),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: validate,
+                    child: Text('Submit'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
